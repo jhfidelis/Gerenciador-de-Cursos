@@ -7,12 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.henriquefidelis.gerenciadordecursos.modules.courses.entities.CourseEntity;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/course")
 public class CourseController {
 
     @PostMapping("/")
-    public void create(@RequestBody CourseEntity courseEntity) {
+    public void create(@Valid @RequestBody CourseEntity courseEntity) {
         System.out.println("Curso");
         System.out.println(courseEntity.getName());
     }
