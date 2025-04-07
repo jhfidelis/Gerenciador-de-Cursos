@@ -1,11 +1,13 @@
 package com.henriquefidelis.gerenciadordecursos.modules.courses.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.henriquefidelis.gerenciadordecursos.modules.courses.entities.CourseEntity;
+import com.henriquefidelis.gerenciadordecursos.modules.courses.repositories.CourseRepository;
 
 import jakarta.validation.Valid;
 
@@ -13,10 +15,12 @@ import jakarta.validation.Valid;
 @RequestMapping("/course")
 public class CourseController {
 
+    @Autowired
+    private CourseRepository courseRepository;
+
     @PostMapping("/")
-    public void create(@Valid @RequestBody CourseEntity courseEntity) {
-        System.out.println("Curso");
-        System.out.println(courseEntity.getName());
+    public CourseEntity create(@Valid @RequestBody CourseEntity courseEntity) {
+        return this.courseRepository.save(courseEntity);
     }
     
 }
