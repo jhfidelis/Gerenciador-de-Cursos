@@ -33,7 +33,8 @@ build/
 .vscode/
 
 # EXTRAS
-application.properties
+src/main/resources/application-dev.properties
+src/main/resources/application-test.properties
 application.yml
 
 .env
