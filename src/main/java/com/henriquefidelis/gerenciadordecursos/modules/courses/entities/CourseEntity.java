@@ -27,14 +27,15 @@ public class CourseEntity {
     private UUID id;
 
     @NotBlank(message = "O nome do curso é um campo obrigatório")
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String name;
 
     @NotBlank(message = "A categoria do curso é um campo obrigatório")
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String category;
 
     @NotNull
+    @Column(length = 10, nullable = false)
     @Enumerated(EnumType.STRING)
     private IsActiveEnum isActive;
 
