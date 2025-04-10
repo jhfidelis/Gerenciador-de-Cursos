@@ -1,5 +1,6 @@
 package com.henriquefidelis.gerenciadordecursos.modules.courses.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -11,4 +12,7 @@ public interface CourseRepository extends JpaRepository<CourseEntity, UUID> {
 
     Optional<CourseEntity> findByName(String name);
     
+    List<CourseEntity> findByNameContainingIgnoreCase(String name);
+    List<CourseEntity> findByCategoryContainingIgnoreCase(String category);
+    List<CourseEntity> findByNameContainingIgnoreCaseAndCategoryContainingIgnoreCase(String name, String category);
 }

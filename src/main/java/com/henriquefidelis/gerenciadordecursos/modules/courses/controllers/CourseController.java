@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.henriquefidelis.gerenciadordecursos.modules.courses.entities.CourseEntity;
@@ -24,7 +25,7 @@ public class CourseController {
     private CreateCourseUseCase createCourseUseCase;
 
     @Autowired
-    private ListCoursesUseCase listAllCoursesUseCase;
+    private ListCoursesUseCase listCoursesUseCase;
 
     @PostMapping("/")
     public ResponseEntity<Object> create(@Valid @RequestBody CourseEntity courseEntity) {
@@ -37,8 +38,11 @@ public class CourseController {
     }
 
     @GetMapping
-    public List<CourseEntity> listAllCourses() {
-        return listAllCoursesUseCase.execute();
+    public List<CourseEntity> listCourses(
+        @RequestParam(required = false) String name,
+        @RequestParam(required = false) String category
+    ) {
+        return listCoursesUseCase.execute(name, category);
     }
 
 }

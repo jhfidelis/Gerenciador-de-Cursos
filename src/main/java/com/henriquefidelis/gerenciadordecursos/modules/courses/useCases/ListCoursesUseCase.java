@@ -14,7 +14,19 @@ public class ListCoursesUseCase {
     @Autowired
     private CourseRepository courseRepository;
 
-    public List<CourseEntity> execute() {
+    public List<CourseEntity> execute(String name, String category) {
+        if (name != null && category != null) {
+            return this.courseRepository.findByNameContainingIgnoreCaseAndCategoryContainingIgnoreCase(name, category);
+        }
+
+        if (name != null) {
+            return this.courseRepository.findByNameContainingIgnoreCase(name);
+        }
+
+        if (category != null) {
+            return this.courseRepository.findByCategoryContainingIgnoreCase(category);
+        }
+
         return this.courseRepository.findAll();
     }
     
