@@ -1,19 +1,24 @@
 package com.henriquefidelis.gerenciadordecursos.modules.courses.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.henriquefidelis.gerenciadordecursos.modules.courses.dto.CourseDTO;
 import com.henriquefidelis.gerenciadordecursos.modules.courses.entities.CourseEntity;
 import com.henriquefidelis.gerenciadordecursos.modules.courses.useCases.CreateCourseUseCase;
 import com.henriquefidelis.gerenciadordecursos.modules.courses.useCases.ListCoursesUseCase;
+import com.henriquefidelis.gerenciadordecursos.modules.courses.useCases.UpdateCourseUseCase;
 
 import jakarta.validation.Valid;
 
@@ -26,6 +31,9 @@ public class CourseController {
 
     @Autowired
     private ListCoursesUseCase listCoursesUseCase;
+
+    @Autowired
+    private UpdateCourseUseCase updateCourseUseCase;
 
     @PostMapping("/")
     public ResponseEntity<Object> create(@Valid @RequestBody CourseEntity courseEntity) {
@@ -43,6 +51,16 @@ public class CourseController {
         @RequestParam(required = false) String category
     ) {
         return listCoursesUseCase.execute(name, category);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> update(@RequestBody CourseDTO courseDTO, @PathVariable UUID id) {
+        try {
+            var result = this.updateCourseUseCase.execute(courseDTO, id);
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }

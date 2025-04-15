@@ -11,6 +11,7 @@ import com.henriquefidelis.gerenciadordecursos.modules.courses.entities.CourseEn
 public interface CourseRepository extends JpaRepository<CourseEntity, UUID> {
 
     Optional<CourseEntity> findByName(String name);
+    Optional<CourseEntity> findById(UUID id);
     
     List<CourseEntity> findByNameContainingIgnoreCase(String name);
     List<CourseEntity> findByCategoryContainingIgnoreCase(String category);
