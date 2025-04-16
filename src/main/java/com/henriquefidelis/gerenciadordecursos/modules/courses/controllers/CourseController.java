@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,6 +21,7 @@ import com.henriquefidelis.gerenciadordecursos.modules.courses.entities.CourseEn
 import com.henriquefidelis.gerenciadordecursos.modules.courses.useCases.CreateCourseUseCase;
 import com.henriquefidelis.gerenciadordecursos.modules.courses.useCases.DeleteCourseUseCase;
 import com.henriquefidelis.gerenciadordecursos.modules.courses.useCases.ListCoursesUseCase;
+import com.henriquefidelis.gerenciadordecursos.modules.courses.useCases.UpdateCourseStatusUseCase;
 import com.henriquefidelis.gerenciadordecursos.modules.courses.useCases.UpdateCourseUseCase;
 
 import jakarta.validation.Valid;
@@ -36,9 +38,12 @@ public class CourseController {
 
     @Autowired
     private UpdateCourseUseCase updateCourseUseCase;
-
+    
     @Autowired
     private DeleteCourseUseCase deleteCourseUseCase;
+
+    @Autowired
+    private UpdateCourseStatusUseCase updateCourseStatusUseCase;
 
     @PostMapping("/")
     public ResponseEntity<Object> create(@Valid @RequestBody CourseEntity courseEntity) {
@@ -75,6 +80,16 @@ public class CourseController {
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    @PatchMapping("/{id}/active")
+    public ResponseEntity<Object> updateStatus(@PathVariable UUID id) {
+        try {
+            var result = this.updateCourseStatusUseCase.execute(id);
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
